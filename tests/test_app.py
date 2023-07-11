@@ -92,8 +92,6 @@ def test_post_artists(db_connection, web_client):
     assert response.data.decode("utf-8") == 'Artist(1, Pixies, Grunge), Artist(2, ABBA, Pop), Artist(3, Taylor Swift, Country), Artist(4, Nina Simone, Blues), Artist(5, Wild Nothing, Rock), Artist(6, Bloc Party, Indie)'
 
 
-
-
 #Scenario 3
 #Post /artists
 # Parameters
@@ -102,3 +100,8 @@ def test_post_artists(db_connection, web_client):
 """
 Please provide a name and genre
 """
+def test_post_artists_no_parameters(db_connection, web_client):
+    db_connection.seed("seeds/music_store.sql") # Seed our database with some test data
+    response = web_client.post('/artists')
+    assert response.status_code == 400
+    assert response.data.decode("utf-8") == 'Please provide a name and genre'

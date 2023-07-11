@@ -39,6 +39,8 @@ def get_artists():
 
 @app.route('/artists', methods=['POST'])
 def post_artists():
+    if 'name' not in request.form or 'genre' not in request.form:
+        return 'Please provide a name and genre', 400
     connection = get_flask_database_connection(app) 
     repository = ArtistRepository(connection)
     repository.add(request.form['name'], request.form['genre'])
