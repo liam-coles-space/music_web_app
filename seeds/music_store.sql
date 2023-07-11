@@ -7,7 +7,23 @@ CREATE TABLE albums (
     artist_id int
 );
 
+DROP TABLE IF EXISTS artists;
+
+CREATE TABLE artists (
+    id SERIAL PRIMARY KEY,
+    name text,
+    genre text
+);
+
 INSERT INTO albums(title, release_year, artist_id) values
     ('Thriller', 1982, 19), 
     ('Back In Black', 1980, 345),
     ('The Bodyguard', 1992, 32);
+
+INSERT INTO artists(name, genre) values
+    ('Pixies', 'Grunge'),
+    ('ABBA', 'Pop'),
+    ('Taylor Swift', 'Country'),
+    ('Nina Simone', 'Blues'),
+    ('Wild Nothing', 'Rock')
+    
