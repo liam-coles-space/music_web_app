@@ -1,10 +1,31 @@
 import os
 from flask import Flask, request
+from lib.album_repository import AlbumRepository
+from lib.album import Album
+from lib.database_connection import get_flask_database_connection
 
 # Create a new Flask app
 app = Flask(__name__)
 
 # == Your Routes Here ==
+@app.route('/albums', methods = ['POST'])
+def post_albums():
+    if 'title' not in request.form or 'release_year' not in request.form or 'artist_id' not in request.form:
+        return 'Please provide a album title, release year and artist ID', 400
+    connection = get_flask_database_connection(app)      
+    repository = AlbumRepository(connection)
+    repository.add(request.form['title'], request.form['release_year'], request.form['artist_id'])
+    return 'Album Added'
+
+@app.route('/albums', methods=['GET'])
+def get_albums():
+    connection = get_flask_database_connection(app)      
+    repository = AlbumRepository(connection)
+    albums = str(repository.all())
+    albums = albums.replace('[','')
+    albums = albums.replace(']','')
+    return albums
+    
 
 # == Example Code Below ==
 
